@@ -21,6 +21,9 @@
 
 - (void)saveImageDataToLibrary:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
+    // get the filename
+    NSString *file = [arguments objectAtIndex:2];
+
 	self.callbackId = arguments.pop;
 	
 	NSData* imageData = [NSData dataFromBase64String:arguments.pop];
@@ -28,6 +31,12 @@
 	UIImage* image = [[[UIImage alloc] initWithData:imageData] autorelease];	
 	UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
 	
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsPath = [paths objectAtIndex:0];
+    NSString *pngPath = [documentsPath StringByAppendingPathComponent:file];
+
+    [UIImagePNGRepresentation(image) writeToFile:pngPath atomically:YES];
+    
 }
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
