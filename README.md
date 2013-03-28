@@ -32,7 +32,8 @@ function onDeviceReady()
 		function(err){
 			console.log(err);
 		}, 
-		'myCanvas'
+		'myCanvas',
+		'filename.png'
 	);
 }
 ```
