@@ -6,13 +6,17 @@
 //  Copyright (c) 2012 Tommy-Carlos Williams. All rights reserved.
 //	MIT Licensed
 //
+//
+//  Added extra parameter to write image file in phonegap
+// 	Contributed by Myo Kyaw Htun
+//
 
 (function(cordova) {
 
 	function Canvas2ImagePlugin() {}
 
-	
-	Canvas2ImagePlugin.prototype.saveImageDataToLibrary = function(successCallback, failureCallback, canvasId) {
+	// added extra parameter "file"
+	Canvas2ImagePlugin.prototype.saveImageDataToLibrary = function(successCallback, failureCallback, canvasId, file) {
 		// successCallback required
 		if (typeof successCallback != "function") {
 			console.log("Canvas2ImagePlugin Error: successCallback is not a function");
@@ -24,7 +28,10 @@
 		}
 		var canvas = document.getElementById(canvasId);
 		var imageData = canvas.toDataURL().replace(/data:image\/png;base64,/,'');
-		return cordova.exec(successCallback, failureCallback, "Canvas2ImagePlugin","saveImageDataToLibrary",[imageData]);
+		// added extra parameter file 
+		// [imageData, file]
+		// previously was [imageData]
+		return cordova.exec(successCallback, failureCallback, "Canvas2ImagePlugin","saveImageDataToLibrary",[imageData, file]);
 	};
 
 	cordova.addConstructor(function() {
